@@ -1,5 +1,7 @@
 package nl.gmt;
 
+import org.apache.commons.lang.Validate;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -32,9 +34,7 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
     }
 
     public StandardServiceContainer(ServiceProvider parentProvider) {
-        if (parentProvider == null) {
-            throw new IllegalArgumentException("parentProvider");
-        }
+        Validate.notNull(parentProvider, "parentProvider");
 
         this.parentProvider = parentProvider;
     }
@@ -54,12 +54,8 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
             }
         }
 
-        if (serviceType == null) {
-            throw new IllegalArgumentException("serviceType");
-        }
-        if (serviceInstance == null) {
-            throw new IllegalArgumentException("serviceInstance");
-        }
+        Validate.notNull(serviceType, "serviceType");
+        Validate.notNull(serviceInstance, "serviceInstance");
 
         if (!(serviceInstance instanceof ServiceCreatorCallback) && !serviceType.isInstance(serviceInstance)) {
             throw new IllegalArgumentException("Service instance is not of service type");
@@ -86,12 +82,8 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
             }
         }
 
-        if (serviceType == null) {
-            throw new IllegalArgumentException("serviceType");
-        }
-        if (callback == null) {
-            throw new IllegalArgumentException("callback");
-        }
+        Validate.notNull(serviceType, "serviceType");
+        Validate.notNull(callback, "callback");
 
         if (getServices().containsKey(serviceType)) {
             throw new IllegalArgumentException("Service already exists");
@@ -116,10 +108,9 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
         }
     }
 
-    public Object getService(Class<?> serviceType) {
-        if (serviceType == null) {
-            throw new IllegalArgumentException("serviceType");
-        }
+    @Override
+    public <T> T getService(Class<T> serviceType) {
+        Validate.notNull(serviceType, "serviceType");
 
         Object obj = null;
         for (Class<?> type : defaultServices) {
@@ -147,7 +138,7 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
             obj = parentProvider.getService(serviceType);
         }
 
-        return obj;
+        return (T)obj;
     }
 
     @Override
@@ -157,9 +148,7 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
 
     @Override
     public void removeService(Class<?> serviceType, boolean promote) {
-        if (serviceType == null) {
-            throw new IllegalArgumentException("serviceType");
-        }
+        Validate.notNull(serviceType, "serviceType");
 
         if (promote) {
             ServiceContainer container = getContainer();
