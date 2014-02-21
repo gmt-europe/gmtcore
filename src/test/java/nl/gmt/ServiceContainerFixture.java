@@ -1,6 +1,6 @@
 package nl.gmt;
 
-import org.junit.Assert;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -9,31 +9,31 @@ import org.junit.runners.JUnit4;
 public class ServiceContainerFixture {
     @Test
     public void addAndRetrieveService() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         MyClass serviceInstance = new MyClass();
 
         container.addService(MyClass.class, serviceInstance);
 
-        Assert.assertEquals(serviceInstance, container.getService(MyClass.class));
-        Assert.assertNull(container.getService(MyInterface.class));
+        assertEquals(serviceInstance, container.getService(MyClass.class));
+        assertNull(container.getService(MyInterface.class));
     }
 
     @Test
     public void addAndRetrieveByInterface() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         MyClass serviceInstance = new MyClass();
 
         container.addService(MyInterface.class, serviceInstance);
 
-        Assert.assertEquals(serviceInstance, container.getService(MyInterface.class));
-        Assert.assertNull(container.getService(MyClass.class));
+        assertEquals(serviceInstance, container.getService(MyInterface.class));
+        assertNull(container.getService(MyClass.class));
     }
 
     @Test
     public void addAndRetrieveByCallback() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         final MyClass serviceInstance = new MyClass();
 
@@ -44,43 +44,43 @@ public class ServiceContainerFixture {
             }
         });
 
-        Assert.assertEquals(serviceInstance, container.getService(MyInterface.class));
-        Assert.assertNull(container.getService(MyClass.class));
+        assertEquals(serviceInstance, container.getService(MyInterface.class));
+        assertNull(container.getService(MyClass.class));
     }
 
     @Test
     public void addPromotedAndRetrieveInBase() {
-        ServiceContainer baseContainer = new ServiceContainerImpl();
-        ServiceContainer container = new ServiceContainerImpl(baseContainer);
+        ServiceContainer baseContainer = new StandardServiceContainer();
+        ServiceContainer container = new StandardServiceContainer(baseContainer);
 
         MyClass serviceInstance = new MyClass();
         container.addService(MyClass.class, serviceInstance, true);
 
-        Assert.assertEquals(serviceInstance, container.getService(MyClass.class));
-        Assert.assertEquals(serviceInstance, baseContainer.getService(MyClass.class));
+        assertEquals(serviceInstance, container.getService(MyClass.class));
+        assertEquals(serviceInstance, baseContainer.getService(MyClass.class));
     }
 
     @Test
     public void closeClosesInstances() throws Exception {
         MyClass serviceInstance = new MyClass();
 
-        try (ServiceContainer container = new ServiceContainerImpl()) {
+        try (ServiceContainer container = new StandardServiceContainer()) {
             container.addService(MyClass.class, serviceInstance);
         }
 
-        Assert.assertTrue(serviceInstance.isClosed());
+        assertTrue(serviceInstance.isClosed());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void addForInvalidTypeThrows() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         container.addService(Integer.class, new MyClass());
     }
 
     @Test(expected = IllegalArgumentException.class)
     public void doubleAddThrows() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         container.addService(MyClass.class, new MyClass());
         container.addService(MyClass.class, new MyClass());
@@ -88,42 +88,62 @@ public class ServiceContainerFixture {
 
     @Test
     public void returnsSelfAsDefaultService() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
-        Assert.assertEquals(container, container.getService(ServiceContainer.class));
-        Assert.assertEquals(container, container.getService(ServiceContainerImpl.class));
+        assertEquals(container, container.getService(ServiceContainer.class));
+        assertEquals(container, container.getService(StandardServiceContainer.class));
     }
 
     @Test
     public void canRemoveService() {
-        ServiceContainer container = new ServiceContainerImpl();
+        ServiceContainer container = new StandardServiceContainer();
 
         MyClass serviceInstance = new MyClass();
 
         container.addService(MyClass.class, serviceInstance);
 
-        Assert.assertEquals(serviceInstance, container.getService(MyClass.class));
+        assertEquals(serviceInstance, container.getService(MyClass.class));
 
         container.removeService(MyClass.class);
 
-        Assert.assertNull(container.getService(MyClass.class));
+        assertNull(container.getService(MyClass.class));
     }
 
     @Test
     public void promoteRemoveWillRemoveFromBase() {
-        ServiceContainer baseContainer = new ServiceContainerImpl();
-        ServiceContainer container = new ServiceContainerImpl(baseContainer);
+        ServiceContainer baseContainer = new StandardServiceContainer();
+        ServiceContainer container = new StandardServiceContainer(baseContainer);
 
         MyClass serviceInstance = new MyClass();
         container.addService(MyClass.class, serviceInstance, true);
 
-        Assert.assertEquals(serviceInstance, container.getService(MyClass.class));
-        Assert.assertEquals(serviceInstance, baseContainer.getService(MyClass.class));
+        assertEquals(serviceInstance, container.getService(MyClass.class));
+        assertEquals(serviceInstance, baseContainer.getService(MyClass.class));
 
         container.removeService(MyClass.class, true);
 
-        Assert.assertNull(container.getService(MyClass.class));
-        Assert.assertNull(baseContainer.getService(MyClass.class));
+        assertNull(container.getService(MyClass.class));
+        assertNull(baseContainer.getService(MyClass.class));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void cannotAddAfterSeal() {
+        SealableServiceContainer container = new SealableServiceContainer();
+
+        container.seal();
+
+        container.addService(MyClass.class, new MyClass());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void cannotRemoveAfterSeal() {
+        SealableServiceContainer container = new SealableServiceContainer();
+
+        container.addService(MyClass.class, new MyClass());
+
+        container.seal();
+
+        container.removeService(MyClass.class);
     }
 
     private static interface MyInterface extends AutoCloseable {

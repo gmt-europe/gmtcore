@@ -3,9 +3,9 @@ package nl.gmt;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
+public class StandardServiceContainer implements ServiceContainer, AutoCloseable {
     private Map<Class<?>, Object> services;
-    private Class<?>[] defaultServices = {ServiceContainer.class, ServiceContainerImpl.class};
+    private Class<?>[] defaultServices = {ServiceContainer.class, StandardServiceContainer.class};
     private ServiceProvider parentProvider;
 
     private ServiceContainer getContainer() {
@@ -28,10 +28,14 @@ public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
         return services;
     }
 
-    public ServiceContainerImpl() {
+    public StandardServiceContainer() {
     }
 
-    public ServiceContainerImpl(ServiceProvider parentProvider) {
+    public StandardServiceContainer(ServiceProvider parentProvider) {
+        if (parentProvider == null) {
+            throw new IllegalArgumentException("parentProvider");
+        }
+
         this.parentProvider = parentProvider;
     }
 
@@ -48,6 +52,13 @@ public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
                 container.addService(serviceType, serviceInstance, promote);
                 return;
             }
+        }
+
+        if (serviceType == null) {
+            throw new IllegalArgumentException("serviceType");
+        }
+        if (serviceInstance == null) {
+            throw new IllegalArgumentException("serviceInstance");
         }
 
         if (!(serviceInstance instanceof ServiceCreatorCallback) && !serviceType.isInstance(serviceInstance)) {
@@ -75,6 +86,13 @@ public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
             }
         }
 
+        if (serviceType == null) {
+            throw new IllegalArgumentException("serviceType");
+        }
+        if (callback == null) {
+            throw new IllegalArgumentException("callback");
+        }
+
         if (getServices().containsKey(serviceType)) {
             throw new IllegalArgumentException("Service already exists");
         }
@@ -99,6 +117,10 @@ public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
     }
 
     public Object getService(Class<?> serviceType) {
+        if (serviceType == null) {
+            throw new IllegalArgumentException("serviceType");
+        }
+
         Object obj = null;
         for (Class<?> type : defaultServices) {
             if (type == serviceType) {
@@ -135,6 +157,10 @@ public class ServiceContainerImpl implements ServiceContainer, AutoCloseable {
 
     @Override
     public void removeService(Class<?> serviceType, boolean promote) {
+        if (serviceType == null) {
+            throw new IllegalArgumentException("serviceType");
+        }
+
         if (promote) {
             ServiceContainer container = getContainer();
             if (container != null) {
