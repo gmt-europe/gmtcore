@@ -1,22 +1,16 @@
 package nl.gmt.modules;
 
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
-import com.sun.xml.internal.ws.api.server.AbstractServerAsyncTransport;
 import nl.gmt.DisplayName;
 import nl.gmt.StandardServiceContainer;
-import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.Callable;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 
 @RunWith(JUnit4.class)
 public class ModulesFixture {
