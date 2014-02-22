@@ -39,6 +39,8 @@ class ModuleManagerImpl implements ModuleManager {
         determineLoadOrder();
 
         for (ModuleRegistration registration : loadOrder) {
+            LOG.infof("Loading module %s (%s)", registration.getDisplayName(), registration.getModuleType());
+
             Module module = registration.getModule();
 
             boolean success = false;
@@ -53,6 +55,8 @@ class ModuleManagerImpl implements ModuleManager {
                 } finally {
                     module.loaded(success);
                 }
+
+                LOG.infof("Finished loading module %s (%s)", registration.getDisplayName(), registration.getModuleType());
             } catch (Exception e) {
                 LOG.error(String.format("Exception when loading module %s", registration.getModuleType()), e);
 
@@ -205,6 +209,9 @@ class ModuleManagerImpl implements ModuleManager {
     private void unloadModules() {
         for (int i = loadOrder.size() - 1; i >= 0; i--) {
             ModuleRegistration registration = loadOrder.get(i);
+
+            LOG.infof("Unloading module %s (%s)", registration.getDisplayName(), registration.getModuleType());
+
             Module module = registration.getModule();
 
             try {
@@ -219,6 +226,8 @@ class ModuleManagerImpl implements ModuleManager {
                 } finally {
                     module.unloaded(success);
                 }
+
+                LOG.infof("Finished unloading module %s (%s)", registration.getDisplayName(), registration.getModuleType());
             } catch (Exception e) {
                 LOG.error(String.format("Exception when unloading module %s", registration.getModuleType()), e);
             }
