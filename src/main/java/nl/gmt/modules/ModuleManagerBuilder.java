@@ -1,7 +1,9 @@
 package nl.gmt.modules;
 
 import nl.gmt.DisplayName;
+import nl.gmt.ServiceContainer;
 import nl.gmt.ServiceProvider;
+import nl.gmt.StandardServiceContainer;
 import org.apache.commons.lang.Validate;
 
 import java.util.ArrayList;
@@ -25,8 +27,20 @@ public class ModuleManagerBuilder {
     }
 
     public ModuleManager build(ServiceProvider serviceProvider) throws ModuleException {
+        return build(serviceProvider, false);
+    }
+
+    public ModuleManager build(ServiceProvider serviceProvider, boolean addToContainer) throws ModuleException {
         Validate.notNull(serviceProvider, "serviceProvider");
 
-        return new ModuleManagerImpl(serviceProvider, moduleTypes);
+        ModuleManagerImpl moduleManager = new ModuleManagerImpl(serviceProvider, moduleTypes);
+
+        if (addToContainer) {
+            serviceProvider.getService(ServiceContainer.class).addService(ModuleManager.class, moduleManager);
+        }
+
+        moduleManager.loadModules();
+
+        return moduleManager;
     }
 }

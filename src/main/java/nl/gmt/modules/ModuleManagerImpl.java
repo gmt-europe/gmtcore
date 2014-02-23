@@ -11,17 +11,17 @@ class ModuleManagerImpl implements ModuleManager {
     private static final Logger LOG = Logger.getLogger(ModuleManagerImpl.class);
 
     private ServiceProvider serviceProvider;
+    private List<Class<?>> moduleTypes;
     private Map<Class<?>, ModuleRegistration> modules = new HashMap<>();
     private List<ModuleRegistration> loadOrder = new ArrayList<>();
     private boolean loaded;
 
-    public ModuleManagerImpl(ServiceProvider serviceProvider, List<Class<?>> moduleTypes) throws ModuleException {
+    public ModuleManagerImpl(ServiceProvider serviceProvider, List<Class<?>> moduleTypes) {
         this.serviceProvider = serviceProvider;
-
-        loadModules(moduleTypes);
+        this.moduleTypes = moduleTypes;
     }
 
-    private void loadModules(List<Class<?>> moduleTypes) throws ModuleException {
+    public void loadModules() throws ModuleException {
         LOG.infof("Creating %d module registrations", moduleTypes.size());
 
         // Create the module registrations.
