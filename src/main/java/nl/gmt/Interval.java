@@ -1,13 +1,35 @@
 package nl.gmt;
 
-public class Interval {
+import org.apache.commons.lang.Validate;
+
+public class Interval implements Comparable<Interval> {
     private static final long TICKS_PER_MS = 1000000;
     private static final int MS_PER_SECOND = 1000;
     private static final int SECOND_PER_MINUTE = 60;
     private static final int MINUTE_PER_HOUR = 60;
     private static final int HOUR_PER_DAY = 24;
 
-    private long ticks;
+    public static Interval fromMilliseconds(double value) {
+        return new Interval((long)(value * TICKS_PER_MS));
+    }
+
+    public static Interval fromSeconds(double value) {
+        return fromMilliseconds(value * MS_PER_SECOND);
+    }
+
+    public static Interval fromMinutes(double value) {
+        return fromSeconds(value * SECOND_PER_MINUTE);
+    }
+
+    public static Interval fromHours(double value) {
+        return fromMinutes(value * MINUTE_PER_HOUR);
+    }
+
+    public static Interval fromDays(double value) {
+        return fromHours(value * HOUR_PER_DAY);
+    }
+
+    private final long ticks;
 
     public Interval(long ticks) {
         this.ticks = ticks;
@@ -80,5 +102,24 @@ public class Interval {
 
     public double getTotalDays() {
         return getTotalHours() / HOUR_PER_DAY;
+    }
+
+    @Override
+    public int compareTo(Interval interval) {
+        Validate.notNull(interval, "interval");
+
+        return Long.compare(ticks, interval.ticks);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return
+            obj instanceof Interval &&
+            ticks == ((Interval)obj).ticks;
+    }
+
+    @Override
+    public int hashCode() {
+        return Long.valueOf(ticks).hashCode();
     }
 }
