@@ -3,8 +3,10 @@ package nl.gmt;
 import org.apache.commons.lang.Validate;
 
 public class Interval implements Comparable<Interval> {
+    private static final long TICKS_PER_NS = 1000;
     private static final long TICKS_PER_MS = 1000000;
     private static final int MS_PER_SECOND = 1000;
+    private static final int NS_PER_SECOND = 1000000;
     private static final int SECOND_PER_MINUTE = 60;
     private static final int MINUTE_PER_HOUR = 60;
     private static final int HOUR_PER_DAY = 24;
@@ -121,5 +123,30 @@ public class Interval implements Comparable<Interval> {
     @Override
     public int hashCode() {
         return Long.valueOf(ticks).hashCode();
+    }
+
+    @Override
+    public String toString() {
+        int days = Math.abs(getDays());
+        int hours = Math.abs(getHours());
+        int minutes = Math.abs(getMinutes());
+        int seconds = Math.abs(getSeconds());
+        int nanoseconds = Math.abs((int)((ticks / TICKS_PER_NS) % NS_PER_SECOND));
+
+        String result = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+        if (nanoseconds > 0) {
+            result += String.format(".%06d", nanoseconds);
+        }
+
+        if (days > 0) {
+            result = days + "." + result;
+        }
+
+        if (ticks < 0) {
+            result = "-" + result;
+        }
+
+        return result;
     }
 }

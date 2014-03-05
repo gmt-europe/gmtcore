@@ -30,4 +30,14 @@ public class IntervalFixture {
         total = total * 1000 + 1;
         assertEquals(total, (int)interval.getTotalMilliseconds());
     }
+
+    @Test
+    public void toStrings() {
+        assertEquals("00:00:00", new Interval(0, 0, 0, 0, 0).toString());
+        assertEquals("00:00:00.001000", new Interval(0, 0, 0, 0, 1).toString());
+        assertEquals("00:00:01.001000", new Interval(0, 0, 0, 1, 1).toString());
+        assertEquals("00:01:01.001000", new Interval(0, 0, 1, 1, 1).toString());
+        assertEquals("01:01:01.001000", new Interval(0, 1, 1, 1, 1).toString());
+        assertEquals("1.01:01:01.001000", new Interval(1, 1, 1, 1, 1).toString());
+    }
 }
