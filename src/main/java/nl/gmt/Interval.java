@@ -4,7 +4,7 @@ import org.apache.commons.lang.Validate;
 
 public class Interval implements Comparable<Interval> {
     private static final long TICKS_PER_NS = 1000;
-    private static final long TICKS_PER_MS = 1000000;
+    public static final long TICKS_PER_MS = 1000000;
     private static final int MS_PER_SECOND = 1000;
     private static final int NS_PER_SECOND = 1000000;
     private static final int SECOND_PER_MINUTE = 60;
