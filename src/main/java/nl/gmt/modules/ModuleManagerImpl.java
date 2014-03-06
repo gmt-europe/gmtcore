@@ -235,7 +235,12 @@ class ModuleManagerImpl implements ModuleManager {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> T getService(Class<T> serviceType) {
+        if (serviceType == ModuleManager.class || serviceType == ModuleManagerImpl.class) {
+            return (T)this;
+        }
+
         return serviceProvider.getService(serviceType);
     }
 
