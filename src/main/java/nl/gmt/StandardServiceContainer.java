@@ -108,6 +108,7 @@ public class StandardServiceContainer implements ServiceContainer, AutoCloseable
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public <T> T getService(Class<T> serviceType) {
         Validate.notNull(serviceType, "serviceType");
