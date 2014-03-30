@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<root xmlns="urn:schema">
+    <childNodeA attr1="attr1" attr2="attr2">
+        <subNodes>
+            <subNode attr1="attr1"/>
+        </subNodes>
+    </childNodeA>
+    <childNodeBs>
+        <childNodeB type="A">
+            <subNode attr1="attr1">value</subNode>
+        </childNodeB>
+        <childNodeB type="B">
+            <subNode attr1="attr1">value</subNode>
+        </childNodeB>
+    </childNodeBs>
+</root>
