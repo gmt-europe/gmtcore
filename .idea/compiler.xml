@@ -23,10 +23,12 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="true" />
         <module name="gmt-core" />
+        <module name="gmt-core-ex" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="gmt-core" target="1.7" />
+      <module name="gmt-core-ex" target="1.7" />
     </bytecodeTargetLevel>
   </component>
 </project>
