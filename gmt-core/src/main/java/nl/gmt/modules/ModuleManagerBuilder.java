@@ -3,14 +3,13 @@ package nl.gmt.modules;
 import nl.gmt.DisplayName;
 import nl.gmt.ServiceContainer;
 import nl.gmt.ServiceProvider;
-import nl.gmt.StandardServiceContainer;
 import org.apache.commons.lang.Validate;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ModuleManagerBuilder {
-    private List<Class<?>> moduleTypes = new ArrayList<>();
+    private final List<Class<?>> moduleTypes = new ArrayList<>();
 
     public ModuleManagerBuilder addModule(Class<?> moduleType) {
         Validate.notNull(moduleType, "moduleType");

@@ -3,11 +3,11 @@
   <component name="EntryPointsManager">
     <entry_points version="2.0" />
   </component>
-  <component name="IdProvider" IDEtalkID="BF2C8C05010E2A404451FA5FAD4C6A34" />
+  <component name="IdProvider" IDEtalkID="CDE00C1BE3D3DEC8422B62D9B7976226" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
-        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/gmt-core/pom.xml" />
       </list>
     </option>
   </component>

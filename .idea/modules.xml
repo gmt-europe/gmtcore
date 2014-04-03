@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/gmt-core.iml" filepath="$PROJECT_DIR$/gmt-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/gmt-core/gmt-core.iml" filepath="$PROJECT_DIR$/gmt-core/gmt-core.iml" />
     </modules>
   </component>
 </project>
