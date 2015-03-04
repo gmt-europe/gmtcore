@@ -25,13 +25,13 @@ public class LeveledLock {
         return level;
     }
 
-    void lock() {
+    public void lock() {
         HeldLock.verifyLock(this);
         lock.lock();
         HeldLock.push(this);
     }
 
-    void unlock() {
+    public void unlock() {
         HeldLock.verifyUnlock(this);
         HeldLock.pop();
         lock.unlock();
