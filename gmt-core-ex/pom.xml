@@ -4,7 +4,7 @@
 
     <groupId>nl.gmt</groupId>
     <artifactId>gmt-core-ex</artifactId>
-    <version>0.2-SNAPSHOT</version>
+    <version>0.2</version>
     <packaging>jar</packaging>
 
     <name>gmt-core-ex</name>
