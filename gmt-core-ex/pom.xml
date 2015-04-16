@@ -29,14 +29,14 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>snapshots</id>
-            <name>Titan Snapshots Repository</name>
-            <url>http://titan:8082/nexus/content/repositories/snapshots/</url>
+            <id>gmt-snapshots</id>
+            <name>GMT Snapshots Repository</name>
+            <url>http://dev:8082/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
         <repository>
-            <id>releases</id>
-            <name>Titan Releases Repository</name>
-            <url>http://titan:8082/nexus/content/repositories/releases/</url>
+            <id>gmt-releases</id>
+            <name>GMT Releases Repository</name>
+            <url>http://dev:8082/nexus/content/repositories/releases/</url>
         </repository>
     </distributionManagement>
 
