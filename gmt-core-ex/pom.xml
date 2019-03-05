@@ -26,17 +26,30 @@
             <version>0.9.9-RC1</version>
         </dependency>
     </dependencies>
+    
+    <repositories>
+        <repository>
+            <id>dev-azure-com-amcsgroup-maven</id>
+            <url>https://pkgs.dev.azure.com/amcsgroup/_packaging/Maven/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 
     <distributionManagement>
-        <snapshotRepository>
-            <id>gmt-snapshots</id>
-            <name>GMT Snapshots Repository</name>
-            <url>http://dev:8082/nexus/content/repositories/snapshots/</url>
-        </snapshotRepository>
         <repository>
-            <id>gmt-releases</id>
-            <name>GMT Releases Repository</name>
-            <url>http://dev:8082/nexus/content/repositories/releases/</url>
+            <id>dev-azure-com-amcsgroup-maven</id>
+            <url>https://pkgs.dev.azure.com/amcsgroup/_packaging/Maven/maven/v1</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
         </repository>
     </distributionManagement>
 
